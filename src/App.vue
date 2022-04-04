@@ -6,7 +6,7 @@
     <label>group identifier</label>
     <input v-model="groupID" placeholder="C">
     <button v-on:click="$refs.images.load()">Load Latest</button>
-    <button v-on:click="$refs.images2.load()">Load Beginning</button>
+    <!--<button v-on:click="$refs.images2.load()">Load Beginning</button>-->
     <Images ref="images" v-bind:groupID="groupID" v-bind:uuid="uuid" v-bind:endpoint="endpoint"/>
     <Images2 ref="images2" v-bind:groupID="groupID" v-bind:uuid="uuid" v-bind:endpoint="endpoint"/>
   </div>
@@ -14,13 +14,13 @@
 
 <script>
 import Images from "./components/Images.vue"
-import Images2 from "./components/Images2.vue"
+//import Images2 from "./components/Images2.vue"
 
 export default {
   name: "app",
   components: {
     Images,
-    Images2
+    //Images2
   },
   data: function () {
     return {
