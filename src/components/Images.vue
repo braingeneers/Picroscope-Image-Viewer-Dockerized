@@ -15,6 +15,9 @@
     <template v-if="manifest.captures.length > 0">
       <div>Row: {{ curRow }} Col: {{ curCol }}</div>
       <div style="padding-top: 1vw">
+           <button id="Arrow48Left" type="button" v-on:click="OnArrow48LeftClick">
+                  Back 48 Timesteps
+           </button>
            <button id="ArrowLeft" type="button" v-on:click="OnArrowLeftClick">
                   Previous Timestamp
            </button>
@@ -22,9 +25,12 @@
            <button id="ArrowRight" type="button" v-on:click="OnArrowRightClick">
                   Next Timestamp
            </button>
+           <button id="Arrow48Right" type="button" v-on:click="OnArrow48RightClick">
+                  Forward 48 Timesteps
+           </button>
       </div>
       <div style="padding-top: 1vw">
-          
+
           T: {{ manifest.captures[curTimestampIndex] }} Z: {{ curZ+1 }}/{{this.manifest.stack_size}}
           <button v-on:click="OnPreviousFocalViewClick">
               Previous Focal View
@@ -35,12 +41,12 @@
           </button>
       </div>
       <div style="position:relative;">
-          
-          
+
+
           <img style = "max-width:50%; max-height:50%;" v-pan="onPan" class="capture" @error="missing"
                :src="`${endpoint}/${uuid}/images/${manifest.captures[curTimestampIndex]}/camera${groupID}${curRow}${curCol}/${curZ + 1}.jpg`" />
-          
-          
+
+
       </div>
     </template>
   </div>
@@ -57,7 +63,7 @@ export default {
         captures: []
       },
       curTimestampIndex: 0,
-      curZ: 0, 
+      curZ: 0,
       curRow: 1,
       curCol: 1,
       startTimestampIndex: 0,
@@ -100,6 +106,19 @@ export default {
             console.log("this.curTimestampIndex: "+ this.curTimestampIndex)
         }
       },
+      OnArrow48RightClick() {
+          console.log()
+          if (this.curTimestampIndex < this.manifest.captures.length-49) {
+              this.startTimestampIndex = this.curTimestampIndex
+              this.curTimestampIndex = this.startTimestampIndex + 48
+              console.log("this.startTimestampIndex: "+this.startTimestampIndex)
+        }
+        else {
+            this.curTimestampIndex = this.manifest.captures.length-1
+            console.log("At max timestamp")
+            console.log("this.curTimestampIndex: "+ this.curTimestampIndex)
+        }
+      },
       OnArrowLeftClick() {
           console.log()
           if (this.curTimestampIndex > 0) {
@@ -112,12 +131,25 @@ export default {
             console.log("this.curTimestampIndex: "+ this.curTimestampIndex)
         }
       },
+      OnArrow48LeftClick() {
+          console.log()
+          if (this.curTimestampIndex > 48) {
+              this.startTimestampIndex = this.curTimestampIndex
+              this.curTimestampIndex = this.startTimestampIndex - 48
+              console.log("this.startTimestampIndex: "+this.startTimestampIndex)
+        }
+        else {
+            this.curTimestampIndex = 0
+            console.log("At first timestamp")
+            console.log("this.curTimestampIndex: "+ this.curTimestampIndex)
+        }
+      },
       OnPreviousFocalViewClick() {
           if (this.curZ > 0) {
           console.log("this.curZ: " + this.curZ)
           this.startZ = this.curZ
           this.curZ = this.startZ - 1
-          
+
           } else {
               console.log("At minimum focal length")
           }
@@ -141,14 +173,14 @@ export default {
       } else if (event.isFinal) {
         this.panning = false
       } else if (event.direction == 2 || event.direction == 4) {
-        this.curTimestampIndex = Math.round( 
+        this.curTimestampIndex = Math.round(
           Math.min(Math.max(
             this.startTimestampIndex + event.deltaX / 25,
               0), this.manifest.captures.length - 1))
           /*var printMe = this.startTimestampIndex + event.deltaX / 25*/
           console.log("this.curTimestampIndex: " + this.curTimestampIndex)
       } else if (event.direction == 8 || event.direction == 16) {
-        this.curZ = Math.round( 
+        this.curZ = Math.round(
           Math.min(Math.max(
             this.startZ + event.deltaY / 25,
             0), this.manifest.stack_size - 1))
