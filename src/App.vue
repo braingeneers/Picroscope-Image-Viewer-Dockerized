@@ -24,9 +24,9 @@ export default {
   },
   data: function () {
     return {
-      uuid: "Ryan-4-2020-02-04",
-      groupID: "C",
-      endpoint: "https://s3.nautilus.optiputer.net/braingeneers/imaging"
+      uuid: "2022-03-23-i-UCB-bio",
+      groupID: "G",
+      endpoint: "https://s3-west.nrp-nautilus.io/braingeneers/imaging"
     }
   },
 }
