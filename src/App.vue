@@ -5,10 +5,10 @@
     <input v-model="uuid" placeholder="Ryan-4-2020-02-04">
     <label>group identifier</label>
     <input v-model="groupID" placeholder="C">
-    <button v-on:click="$refs.images.load()">Load Latest</button>
-    <!--<button v-on:click="$refs.images2.load()">Load Beginning</button>-->
+    <button v-on:click="$refs.images.loader('newest')">Load Latest</button>
+    <button v-on:click="$refs.images.loader('oldest')">Load Beginning</button>
     <Images ref="images" v-bind:groupID="groupID" v-bind:uuid="uuid" v-bind:endpoint="endpoint"/>
-    <Images2 ref="images2" v-bind:groupID="groupID" v-bind:uuid="uuid" v-bind:endpoint="endpoint"/>
+    <!-- <Images2 ref="images2" v-bind:groupID="groupID" v-bind:uuid="uuid" v-bind:endpoint="endpoint"/> -->
   </div>
 </template>
 

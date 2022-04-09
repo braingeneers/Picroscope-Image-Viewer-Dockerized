@@ -14,6 +14,8 @@ Vue.directive("pan", {
   }
 })
 
+
+
 new Vue({
   render: h => h(App),
 }).$mount('#app')

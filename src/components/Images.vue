@@ -1,13 +1,13 @@
 <template>
   <div>
     <template v-if="manifest.captures.length > 0">
-      <div>Latest Images for {{ uuid }}</div>
+      <div>Images for {{ uuid }}</div>
       <!-- Hard code as we can't determine from manifest row and column -->
-      <table>
+      <table id="picture-grid">
         <tr v-for="row in 4" :key="row">
           <td v-for="col in 6" :key="row * 10 + col">
             <img v-on:click="onClick" class="capture" @error="missing" v-bind:data-row="row" v-bind:data-col="col"
-                 :src="`${endpoint}/${uuid}/images/${manifest.captures[manifest.captures.length - 1]}/camera${groupID}${row}${col}/${0 + 1}.jpg`"/>
+                 :src="`${endpoint}/${uuid}/images/${manifest.captures[firstLoadIndex]}/camera${groupID}${row}${col}/${0 + 1}.jpg`"/>
           </td>
         </tr>
       </table>
@@ -62,24 +62,38 @@ export default {
         stack_size: 0,
         captures: []
       },
+      // manifest.captures.length - 1
       curTimestampIndex: 0,
       curZ: 0,
       curRow: 1,
       curCol: 1,
+      firstLoadIndex: 0,
       startTimestampIndex: 0,
       startZ: 0,
       panning: false
     }
   },
   methods: {
-    load: function() {
+    loader(start_index) {
+      // try{
+      //   document.getElementById("picture-grid").innerHTML = "";
+      // }catch(error){
+      //   console.log(error)
+      // }
+      console.log(start_index)
       console.log("Loading...", this.uuid)
       console.log(`${this.endpoint}/${this.uuid}/images/manifest.json`)
       fetch(`${this.endpoint}/${this.uuid}/images/manifest.json`)
         .then(stream => stream.json())
         .then(data => {
           this.manifest = data
-          this.curTimestampIndex = this.manifest.captures.length -1
+          if(start_index == "newest"){
+            this.curTimestampIndex = this.manifest.captures.length -1
+            this.firstLoadIndex = this.manifest.captures.length -1
+          }else{
+            this.curTimestampIndex = 0
+            this.firstLoadIndex = 0
+          }
         })
         .catch(error => {
           console.log(error)
@@ -96,10 +110,8 @@ export default {
       },
       OnArrowRightClick() {
           console.log()
-          if (this.curTimestampIndex < this.manifest.captures.length-1) {
-              this.startTimestampIndex = this.curTimestampIndex
-              this.curTimestampIndex = this.startTimestampIndex + 1
-              console.log("this.startTimestampIndex: "+this.startTimestampIndex)
+        if (this.curTimestampIndex < this.manifest.captures.length-1) {
+              this.curTimestampIndex = this.curTimestampIndex + 1
         }
         else {
             console.log("At max timestamp")
@@ -109,9 +121,7 @@ export default {
       OnArrow48RightClick() {
           console.log()
           if (this.curTimestampIndex < this.manifest.captures.length-49) {
-              this.startTimestampIndex = this.curTimestampIndex
-              this.curTimestampIndex = this.startTimestampIndex + 48
-              console.log("this.startTimestampIndex: "+this.startTimestampIndex)
+              this.curTimestampIndex = this.curTimestampIndex + 48
         }
         else {
             this.curTimestampIndex = this.manifest.captures.length-1
@@ -122,9 +132,7 @@ export default {
       OnArrowLeftClick() {
           console.log()
           if (this.curTimestampIndex > 0) {
-              this.startTimestampIndex = this.curTimestampIndex
-              this.curTimestampIndex = this.startTimestampIndex - 1
-              console.log("this.startTimestampIndex: "+this.startTimestampIndex)
+              this.curTimestampIndex = this.curTimestampIndex - 1
         }
         else {
             console.log("At minimum timestamp")
@@ -134,9 +142,7 @@ export default {
       OnArrow48LeftClick() {
           console.log()
           if (this.curTimestampIndex > 48) {
-              this.startTimestampIndex = this.curTimestampIndex
-              this.curTimestampIndex = this.startTimestampIndex - 48
-              console.log("this.startTimestampIndex: "+this.startTimestampIndex)
+              this.curTimestampIndex = this.curTimestampIndex - 48
         }
         else {
             this.curTimestampIndex = 0
@@ -159,7 +165,7 @@ export default {
           console.log("this.curZ: " + this.curZ)
           this.startZ = this.curZ
           this.curZ = this.startZ + 1
-          
+
           } else {
               console.log("At maximum focal length")
           }

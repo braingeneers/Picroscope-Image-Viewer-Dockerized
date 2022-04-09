@@ -1,5 +1,6 @@
 module.exports = {
-  publicPath: '/images/',
+  // publicPath: '/images/',
+  publicPath: '/',
   outputDir: 'dist/images/',
   devServer: {
     disableHostCheck: true
