@@ -87,12 +87,18 @@ export default {
         .then(stream => stream.json())
         .then(data => {
           this.manifest = data
-          if(start_index == "newest"){
-            this.curTimestampIndex = this.manifest.captures.length -1
-            this.firstLoadIndex = this.manifest.captures.length -1
-          }else{
-            this.curTimestampIndex = 0
-            this.firstLoadIndex = 0
+          switch(start_index){
+            case "newest":
+              this.curTimestampIndex = this.manifest.captures.length -1
+              this.firstLoadIndex = this.manifest.captures.length -1
+              break;
+            case "oldest":
+              this.curTimestampIndex = 0
+              this.firstLoadIndex = 0
+              break;
+            case "sync":
+              this.firstLoadIndex = this.curTimestampIndex
+              break;
           }
         })
         .catch(error => {
