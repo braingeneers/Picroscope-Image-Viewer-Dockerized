@@ -2,21 +2,18 @@
   <div id="app">
     <img alt="Braingeneers Imaging" src="./assets/logo.png">
     <label>uuid</label>
-    <select v-model="uuid">
-      <!-- v-bind:value="option.value" :key="option.text"> -->
-      <option v-for="option in options" :key="option">
-        {{ option }}
-      </option>
-    </select>
     <input v-model="uuid" placeholder="Ryan-4-2020-02-04">
     <label>group identifier</label>
     <input v-model="groupID" placeholder="C">
     <button v-on:click="$refs.images.loader('newest')">Load Latest</button>
     <button v-on:click="$refs.images.loader('oldest')">Load Beginning</button>
     <button v-on:click="$refs.images.loader('sync')">Sync</button>
+    <div class="mySelectDiv">
+      <v-select v-model="uuid" :options="uuid_options"></v-select>
+      <v-select v-model="groupID" :options="groupID_options"></v-select>
+    </div>
     <!-- <button v-on:click="uuid='boof'">barf</button> -->
     <Images ref="images" v-bind:groupID="groupID" v-bind:uuid="uuid" v-bind:endpoint="endpoint"/>
-    <!-- <Images2 ref="images2" v-bind:groupID="groupID" v-bind:uuid="uuid" v-bind:endpoint="endpoint"/> -->
   </div>
 </template>
 
@@ -35,7 +32,8 @@ export default {
       uuid: "2022-03-23-i-UCB-bio",
       groupID: "G",
       endpoint: "https://s3-west.nrp-nautilus.io/braingeneers/imaging",
-      options: [1,2,3],
+      uuid_options: [],
+      groupID_options:['A','B','C','D','E','F','G','H']
       // options: [
       //   { text: 'One', value: 'A' },
       //   { text: 'Two', value: 'B' },
@@ -49,7 +47,7 @@ export default {
     .then(textString => {
       const lines = textString.split('\n');
       for (var line of lines){
-        this.options.push(line.substring(0, line.length-1))
+        this.uuid_options.push(line.substring(0, line.length-1))
         console.log(line.substring(0, line.length-1))
       }
       //console.log(textString);
@@ -61,6 +59,10 @@ export default {
 </script>
 
 <style>
+.mySelectDiv {
+max-width: 500px !important;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
