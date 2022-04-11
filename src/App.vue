@@ -2,18 +2,18 @@
   <div id="app">
     <img alt="Braingeneers Imaging" src="./assets/logo.png">
     <label>uuid</label>
-    <input v-model="uuid" placeholder="Ryan-4-2020-02-04">
-    <label>group identifier</label>
-    <input v-model="groupID" placeholder="C">
-    <button v-on:click="$refs.images.loader('newest')">Load Latest</button>
-    <button v-on:click="$refs.images.loader('oldest')">Load Beginning</button>
-    <button v-on:click="$refs.images.loader('sync')">Sync</button>
     <select v-model="uuid">
       <!-- v-bind:value="option.value" :key="option.text"> -->
       <option v-for="option in options" :key="option">
         {{ option }}
       </option>
     </select>
+    <input v-model="uuid" placeholder="Ryan-4-2020-02-04">
+    <label>group identifier</label>
+    <input v-model="groupID" placeholder="C">
+    <button v-on:click="$refs.images.loader('newest')">Load Latest</button>
+    <button v-on:click="$refs.images.loader('oldest')">Load Beginning</button>
+    <button v-on:click="$refs.images.loader('sync')">Sync</button>
     <!-- <button v-on:click="uuid='boof'">barf</button> -->
     <Images ref="images" v-bind:groupID="groupID" v-bind:uuid="uuid" v-bind:endpoint="endpoint"/>
     <!-- <Images2 ref="images2" v-bind:groupID="groupID" v-bind:uuid="uuid" v-bind:endpoint="endpoint"/> -->
