@@ -108,7 +108,7 @@ export default {
     },
     missing(event) {
       console.log("Missing image", event.target.src)
-      event.target.src = require("../assets/missing.jpg")
+      event.target.src = require("../assets/5823.jpg")
     },
     onClick(event) {
       this.curRow = event.target.dataset.row
