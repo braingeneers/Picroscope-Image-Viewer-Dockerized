@@ -1,17 +1,19 @@
 <template>
   <div id="app">
+    <!-- <router-view></router-view> -->
     <img alt="Braingeneers Imaging" src="./assets/logo.png">
     <label>uuid</label>
     <input v-model="uuid" placeholder="Ryan-4-2020-02-04">
     <label>group identifier</label>
     <input v-model="groupID" placeholder="C">
-    <button v-on:click="$refs.images.loader('newest')">Load Latest</button>
-    <button v-on:click="$refs.images.loader('oldest')">Load Beginning</button>
-    <button v-on:click="$refs.images.loader('sync')">Sync</button>
     <div class="mySelectDiv">
       <v-select v-model="uuid" :options="uuid_options"></v-select>
       <v-select v-model="groupID" :options="groupID_options"></v-select>
     </div>
+    <button v-on:click="$refs.images.loader('newest')">Load Latest</button>
+    <button v-on:click="$refs.images.loader('oldest')">Load Beginning</button>
+    <button v-on:click="$refs.images.loader('sync')">Sync</button>
+
     <!-- <button v-on:click="uuid='boof'">barf</button> -->
     <Images ref="images" v-bind:groupID="groupID" v-bind:uuid="uuid" v-bind:endpoint="endpoint"/>
   </div>
@@ -59,9 +61,9 @@ export default {
 </script>
 
 <style>
-.mySelectDiv {
+/* .mySelectDiv {
 max-width: 500px !important;
-}
+} */
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
