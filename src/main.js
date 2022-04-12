@@ -20,7 +20,6 @@ Vue.directive("pan", {
 })
 
 
-
 new Vue({
   router,
   render: h => h(App)

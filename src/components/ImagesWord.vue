@@ -54,7 +54,7 @@
 
 <script>
 export default {
-  name: "Images",
+  name: 'ImagesWord',
   props: ["uuid","groupID", "endpoint"],
   data: function() {
     return {
