@@ -25,6 +25,7 @@ import ImagesWord from "@/components/ImagesWord.vue"
 //import Images2 from "./components/Images2.vue"
 export default {
   name: "HomeView",
+  props: ['uuid_from_URL','gid_from_URL'],
   components: {
     ImagesWord,
   },
@@ -43,6 +44,13 @@ export default {
     }
   },
   mounted() {
+    //load list of uuids
+    if (this.uuid_from_URL){
+      this.uuid = this.uuid_from_URL
+    }
+    if (this.gid_from_URL){
+      this.groupID = this.gid_from_URL
+    }
     fetch(`${this.endpoint}/uuid-manifest.txt`)
     .then(response => response.text())
     .then(textString => {

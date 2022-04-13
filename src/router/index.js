@@ -6,7 +6,13 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/images/:uuid_from_URL/:gid_from_URL',
+    name: 'home',
+    component: HomeView,
+    props: true
+  },
+  {
+    path: '/images',
     name: 'home',
     component: HomeView
   },
