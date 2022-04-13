@@ -10,10 +10,11 @@
       <v-select v-model="uuid" :options="uuid_options"></v-select>
       <v-select v-model="groupID" :options="groupID_options"></v-select>
     </div>
-    <button v-on:click="$refs.images.loader('newest')">Load Latest</button>
-    <button v-on:click="$refs.images.loader('oldest')">Load Beginning</button>
-    <button v-on:click="$refs.images.loader('sync')">Sync</button>
-    <button v-on:click="loadTrigger=loadTrigger+1">Trigger</button>
+    <button v-on:click="redirectToURL();$refs.images.loader('newest')">Load Latest</button>
+    <button v-on:click="redirectToURL();$refs.images.loader('oldest')">Load Beginning</button>
+    <button v-on:click="redirectToURL();$refs.images.loader('sync')">Sync</button>
+    <!-- <button @click="redirectToURL()">Go Back</button> -->
+    <!-- <button v-on:click="loadTrigger=loadTrigger+1">Trigger</button> -->
 
     <!-- <button v-on:click="uuid='boof'">barf</button> -->
     <ImagesWord  ref="images" v-bind:groupID="groupID" v-bind:uuid="uuid" v-bind:endpoint="endpoint" v-bind:loadTrigger="loadTrigger" />
@@ -43,6 +44,11 @@ export default {
       //   { text: 'Two', value: 'B' },
       //   { text: 'Three', value: 'C' }
       // ]
+    }
+  },
+  methods:{
+    redirectToURL(){
+      this.$router.push({ path: '/images/'+this.uuid+'/'+this.groupID });
     }
   },
   mounted() {
