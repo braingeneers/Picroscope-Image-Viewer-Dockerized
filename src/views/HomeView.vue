@@ -13,9 +13,10 @@
     <button v-on:click="$refs.images.loader('newest')">Load Latest</button>
     <button v-on:click="$refs.images.loader('oldest')">Load Beginning</button>
     <button v-on:click="$refs.images.loader('sync')">Sync</button>
+    <button v-on:click="loadTrigger=loadTrigger+1">Trigger</button>
 
     <!-- <button v-on:click="uuid='boof'">barf</button> -->
-    <ImagesWord ref="images" v-bind:groupID="groupID" v-bind:uuid="uuid" v-bind:endpoint="endpoint"/>
+    <ImagesWord  ref="images" v-bind:groupID="groupID" v-bind:uuid="uuid" v-bind:endpoint="endpoint" v-bind:loadTrigger="loadTrigger" />
   </div>
 </template>
 
@@ -35,7 +36,8 @@ export default {
       groupID: "G",
       endpoint: "https://s3-west.nrp-nautilus.io/braingeneers/imaging",
       uuid_options: [],
-      groupID_options:['A','B','C','D','E','F','G','H']
+      groupID_options:['A','B','C','D','E','F','G','H'],
+      loadTrigger: 0,
       // options: [
       //   { text: 'One', value: 'A' },
       //   { text: 'Two', value: 'B' },
@@ -50,6 +52,8 @@ export default {
     }
     if (this.gid_from_URL){
       this.groupID = this.gid_from_URL
+      this.loadTrigger++
+      console.log(this.loadTrigger);
     }
     fetch(`${this.endpoint}/uuid-manifest.txt`)
     .then(response => response.text())

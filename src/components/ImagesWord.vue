@@ -55,7 +55,7 @@
 <script>
 export default {
   name: 'ImagesWord',
-  props: ["uuid","groupID", "endpoint"],
+  props: ["uuid","groupID", "endpoint","loadTrigger"],
   data: function() {
     return {
       manifest: {
@@ -73,13 +73,15 @@ export default {
       panning: false
     }
   },
+  watch: {
+    loadTrigger: function(newVal, oldVal) {
+      console.log(newVal, oldVal)
+      console.log("testProp got hit")
+      this.loader("newest")
+    }
+  },
   methods: {
     loader(start_index) {
-      // try{
-      //   document.getElementById("picture-grid").innerHTML = "";
-      // }catch(error){
-      //   console.log(error)
-      // }
       console.log(start_index)
       console.log("Loading...", this.uuid)
       console.log(`${this.endpoint}/${this.uuid}/images/manifest.json`)
@@ -99,6 +101,9 @@ export default {
             case "sync":
               this.firstLoadIndex = this.curTimestampIndex
               break;
+            default:
+              console.log(this.loadTrigger)
+
           }
         })
         .catch(error => {
